@@ -22,7 +22,15 @@ Node のバージョンは `.node-version`（24.21.0）で固定している。n
 
 ## 公開
 
-`main` に push すると GitHub Actions がビルドして GitHub Pages に公開する（`.github/workflows/deploy.yml`）。スマホで開いて「ホーム画面に追加」するとアプリのように使える。
+https://ankomochi114.github.io/tsuzukikara/
+
+```bash
+npm run deploy
+```
+
+手元でビルドして `gh-pages` ブランチに送り、GitHub Pages で公開する（`scripts/deploy.sh`）。スマホで開いて「ホーム画面に追加」するとアプリのように使える。
+
+`.github/workflows/deploy.yml` は GitHub Actions で自動公開するための設定。いまはアカウントで Actions が使えないため動いていない。使えるようになったら、Pages の公開元を「GitHub Actions」に切り替えれば `main` への push で自動公開される。
 
 ## 構成
 
