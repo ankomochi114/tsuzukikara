@@ -16,11 +16,9 @@ npm install
 npm run dev
 ```
 
-ビルドには Node 20 以上を使う（`.nvmrc`）。Node 18 系の古い版では PWA のビルドが失敗するので、その場合は次のように実行する。
+Node のバージョンは `.node-version`（24.21.0）で固定している。nodenv を使っていれば自動で切り替わる。
 
-```bash
-NODE_OPTIONS=--experimental-global-webcrypto npm run build
-```
+`prototype/tsuzukikara.html` は、アプリにする前に claude.ai のアーティファクトとして作った最初の試作。
 
 ## 公開
 

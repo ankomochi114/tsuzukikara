@@ -1,0 +1,716 @@
+<title>つづきから</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+<style>
+/* 夜行列車の車内。1カラムのスマホアプリ。上に車窓、下にタブ。作品はすべて切符。 */
+:root{
+  color-scheme:dark;
+  --night:#11143a; --car:#1c2052; --car-2:#272c63; --line:#3b4186;
+  --lamp:#f0a23b; --lamp-soft:#ffd590; --lamp-ink:#3d2503;
+  --fg:#ece9fb; --fg-dim:#a9a6d0; --fg-faint:#7a77ad;
+  --paper:#f2eee2; --paper-2:#e6e0cf; --ink:#2a2925; --ink-soft:#67635a;
+  --stamp:#b5352d; --stamp-k:#8a5a12;
+  --f-display:"Zen Maru Gothic","Hiragino Maru Gothic ProN",system-ui,sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;
+  --f-print:"DotGothic16","Osaka-Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--night);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.65;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+.ms{font-family:"Material Symbols Rounded";font-weight:400;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;vertical-align:-4px;width:1em;overflow:hidden}
+#app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:var(--night)}
+
+/* 車窓 */
+.win{background:#0a0c26;border-bottom:3px solid var(--line);padding:14px 16px 0;position:relative;overflow:hidden}
+.win-top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.06em}
+.logo small{font-family:var(--f-print);font-weight:400;font-size:11px;color:var(--fg-faint);margin-left:8px;letter-spacing:.1em}
+.moon{color:var(--lamp-soft)}
+.windows{display:flex;gap:8px;margin-top:12px}
+.windows span{flex:1;height:26px;border-radius:7px 7px 3px 3px;background:#211d58;border:1px solid var(--line);transition:background 1.6s}
+.windows span.lit{background:#b9741a}
+.scenery{height:14px;position:relative;margin-top:8px}
+.scenery i{position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--lamp-soft);opacity:.55;animation:pass linear infinite}
+@keyframes pass{from{left:105%}to{left:-5%}}
+
+main{flex:1;padding:16px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.view-title{font-family:var(--f-display);font-size:19px;font-weight:700;margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.view-title small{font-family:var(--f-print);font-weight:400;font-size:13px;color:var(--lamp-soft)}
+.label{font-size:13px;color:var(--fg-dim);display:flex;align-items:center;gap:6px}
+
+/* 車掌さん */
+.conductor{display:flex;gap:10px;align-items:flex-start}
+.cap{width:38px;height:38px;flex-shrink:0;border-radius:50%;background:var(--car-2);border:1.5px solid var(--line);display:grid;place-items:center;color:var(--lamp-soft)}
+.bubble{flex:1;min-width:0;background:var(--car);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:9px 13px;font-size:14px}
+.bubble b{font-weight:500;color:var(--lamp-soft)}
+
+/* 切符 */
+.ticket{position:relative;background-color:var(--paper);color:var(--ink);border-radius:12px;padding:14px 16px 12px 20px;
+  background-image:repeating-linear-gradient(135deg,transparent 0 9px,rgba(120,140,110,.07) 9px 10px),repeating-linear-gradient(45deg,transparent 0 9px,rgba(120,140,110,.07) 9px 10px)}
+.ticket::before{content:"";position:absolute;left:8px;top:12px;bottom:12px;border-left:2px dashed #b3ad9c}
+.ticket .notch{position:absolute;left:-9px;width:18px;height:18px;border-radius:50%;background:var(--night)}
+.ticket .notch.t{top:-9px}.ticket .notch.b{bottom:-9px}
+.sheet .ticket .notch{background:var(--car)}
+.t-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft)}
+.t-kind{display:flex;align-items:center;gap:4px}
+.t-car{font-family:var(--f-print);font-size:13px;color:var(--ink);border:1px solid #b3ad9c;border-radius:4px;padding:0 6px;background:var(--paper-2)}
+.t-title{font-family:var(--f-display);font-weight:700;font-size:18px;line-height:1.35;margin:2px 0 0;overflow-wrap:anywhere}
+.t-memo{font-size:13px;color:var(--ink-soft);margin-top:8px;display:flex;gap:4px}
+.t-memo .ms{font-size:16px;vertical-align:-3px;color:var(--stamp-k)}
+.t-foot{font-family:var(--f-print);font-size:11px;color:#8d887a;margin-top:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tag-sample{font-size:11px;background:#d9d2bd;color:#4d4838;border-radius:4px;padding:0 6px}
+.pill{font-size:12px;background:var(--paper-2);color:#4d4838;border-radius:20px;padding:1px 9px;white-space:nowrap}
+.t-actions{display:flex;gap:8px;margin-top:12px}
+.t-more{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ink-soft)}
+.t-more:hover{background:var(--paper-2)}
+
+/* 路線 */
+.route{display:flex;align-items:center;margin:14px 2px 2px}
+.st{width:16px;height:16px;border-radius:50%;border:3.5px solid #b9741a;background:var(--paper);flex-shrink:0;z-index:1}
+.st.end{border-color:var(--stamp);width:20px;height:20px}
+.rail{flex:1;height:5px;background:#c9c3b1;position:relative;margin:0 -2px}
+.rail-done{position:absolute;left:0;top:0;bottom:0;background:#b9741a}
+.train{position:absolute;top:50%;transform:translate(-50%,-56%);color:#6a3f06;font-size:24px;width:24px;background:var(--paper);border-radius:6px}
+.route-labels{display:flex;justify-content:space-between;font-family:var(--f-print);font-size:12px;color:var(--ink-soft);margin-top:4px}
+.route-labels b{font-weight:400;color:#7a4a0a}
+.route-left{font-size:13px;margin-top:6px;color:#7a4a0a;font-weight:500}
+
+/* 空席 */
+.seat{border:1.5px dashed var(--line);border-radius:12px;padding:16px;text-align:center;color:var(--fg-faint);font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.seat:hover{border-color:var(--fg-faint);color:var(--fg-dim)}
+.seat b{font-family:var(--f-print);font-weight:400;color:var(--fg-dim)}
+
+/* ボタン */
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;border-radius:12px;padding:10px 14px;font-weight:500;font-size:15px;width:100%;text-align:center}
+.btn.primary{background:var(--lamp);color:var(--lamp-ink)}
+.btn.primary:hover{background:#f6b24f}
+.btn.ghost{border:1px solid var(--line);color:var(--fg)}
+.btn.ghost:hover{background:var(--car-2)}
+.btn.ink{border:1px solid #b3ad9c;color:var(--ink)}
+.btn.ink:hover{background:var(--paper-2)}
+.btn.danger{border:1px solid #8c3a35;color:#ffb3ad}
+.btn small{font-weight:400;font-size:12.5px;opacity:.85}
+.row{display:flex;gap:8px}
+.row>*{flex:1;min-width:0}
+.stack{display:flex;flex-direction:column;gap:10px}
+.note{font-size:12.5px;color:var(--fg-faint);text-align:center}
+
+/* タブ */
+.tabbar{position:sticky;bottom:0;background:#0d1030;border-top:1px solid var(--line);display:flex;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--fg-faint);padding:4px 0;border-radius:10px}
+.tab .ms{font-size:24px;vertical-align:0}
+.tab[aria-current="page"]{color:var(--lamp-soft)}
+
+/* シート */
+.sheet-wrap{position:fixed;inset:0;background:rgba(5,6,20,.66);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{background:var(--car);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;width:100%;max-width:480px;max-height:92%;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:.4}}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sheet-head h2{font-family:var(--f-display);font-size:18px;margin:0}
+.x{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--fg-dim)}
+.x:hover{background:var(--car-2)}
+
+/* フォーム */
+.field{display:flex;flex-direction:column;gap:4px}
+.field>span{font-size:13px;color:var(--fg-dim)}
+.field>span em{font-style:normal;color:var(--fg-faint);font-size:12px}
+input[type=text],input[type=number],textarea,select{font:inherit;color:var(--fg);background:var(--night);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+textarea{resize:vertical;min-height:64px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:13.5px;display:flex;align-items:center;gap:4px}
+.chip[aria-pressed="true"]{background:var(--lamp);color:var(--lamp-ink);border-color:var(--lamp)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.err{color:#ffb3ad;font-size:12.5px}
+
+/* パンチ */
+.punch{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 4px}
+.hole-btn{width:40px;height:40px;border-radius:50%;border:1.5px dashed #a39d8b;color:var(--ink-soft);font-family:var(--f-print);font-size:14px;display:grid;place-items:center;position:relative}
+.hole-btn.station{border-style:solid;border-color:#b9741a;border-width:2px}
+.hole-btn.end{border-color:var(--stamp)}
+.hole-btn.on{background:var(--night);border:0;color:var(--lamp-soft)}
+.hole-btn.on.pop{animation:pop .25s ease-out}
+@keyframes pop{from{transform:scale(1.35)}}
+.punch-hint{font-size:12px;color:var(--ink-soft)}
+.pager{display:flex;align-items:center;gap:8px;margin-top:10px}
+.pager input{background:#fff;color:var(--ink);border-color:#b3ad9c;text-align:center;font-family:var(--f-print);font-size:18px}
+.pager button{border:1px solid #b3ad9c;border-radius:10px;padding:8px 10px;color:var(--ink);font-family:var(--f-print);white-space:nowrap}
+
+/* しおり */
+.shiori{background:#fbe9c4;color:#4a2f06;border-radius:8px;padding:9px 12px;margin-top:10px;font-size:14px}
+.shiori-h{font-size:12px;color:#8a5a12;display:flex;align-items:center;gap:3px}
+
+/* スタンプ */
+.stamp{position:absolute;right:14px;top:50%;width:72px;height:72px;margin-top:-36px;border-radius:50%;border:3px double var(--stamp);color:var(--stamp);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-14deg);font-family:var(--f-print);line-height:1.15;background:rgba(242,238,226,.6)}
+.stamp b{font-family:var(--f-display);font-size:16px;font-weight:700}
+.stamp span{font-size:12px}
+.stamp.k{border-color:var(--stamp-k);color:var(--stamp-k)}
+.stamp.sm{width:54px;height:54px;margin-top:-27px}
+.stamp.sm b{font-size:13px}.stamp.sm span{font-size:10.5px}
+.stamp.slam{animation:slam .5s cubic-bezier(.2,1.6,.4,1) both .25s}
+@keyframes slam{from{transform:rotate(-30deg) scale(2.4);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:1}}
+.has-stamp{padding-right:96px}
+.has-stamp.sm{padding-right:76px}
+
+.celebrate-lights{display:flex;gap:6px;justify-content:center}
+.celebrate-lights span{width:26px;height:34px;border-radius:6px 6px 2px 2px;background:#211d58;border:1px solid var(--line);animation:light .3s forwards}
+@keyframes light{to{background:var(--lamp)}}
+.stats{display:flex;justify-content:center;gap:28px;text-align:center}
+.stats b{display:block;font-family:var(--f-print);font-weight:400;font-size:22px;color:var(--lamp-soft)}
+.stats span{font-size:12px;color:var(--fg-dim)}
+
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 16px;font-size:14px;max-width:calc(100% - 32px);width:max-content;z-index:30;display:flex;gap:8px;align-items:center;animation:up .2s ease-out}
+.toast .ms{color:#8a5a12}
+
+.hero-ticket{transform:rotate(-2deg);margin:6px 4px}
+.empty{color:var(--fg-dim);font-size:14px;text-align:center;padding:12px 0}
+.section-h{font-size:13px;color:var(--fg-dim);margin:8px 0 -4px;display:flex;align-items:center;gap:6px}
+.list{display:flex;flex-direction:column;gap:12px}
+.ticket.compact{padding:10px 14px 10px 20px}
+.ticket.compact .t-title{font-size:16px}
+.ticket.tilt-a{transform:rotate(-1.2deg)}.ticket.tilt-b{transform:rotate(.8deg)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:flex;gap:12px;align-items:center;background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 14px}
+.steps .num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--night);color:var(--lamp-soft);display:grid;place-items:center;font-family:var(--f-print);font-size:15px}
+.steps b{display:block;font-family:var(--f-display);font-size:16px}
+.steps li span:not(.num){font-size:13px;color:var(--ink-soft)}
+.btn.big{padding:14px;font-size:16px}
+.link{color:var(--lamp-soft);font-size:14px;text-decoration:underline;text-underline-offset:3px;padding:6px;align-self:center}
+.inline{display:flex;gap:8px;align-items:center}
+.inline input{flex:1;min-width:0}.inline select{width:auto}.inline span{white-space:nowrap;color:var(--fg-dim);font-size:14px}
+.confirm{background:var(--night);border:1px solid #8c3a35;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app">
+  <header class="win">
+    <div class="win-top">
+      <div class="logo">つづきから<small>NIGHT LINE</small></div>
+      <span class="ms moon" aria-hidden="true">dark_mode</span>
+    </div>
+    <div class="windows" id="windows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="scenery" id="scenery" aria-hidden="true"></div>
+  </header>
+  <main id="view"></main>
+  <nav class="tabbar" aria-label="画面の切り替え">
+    <button class="tab" data-act="tab" data-tab="home"><span class="ms" aria-hidden="true">train</span>いま見てる</button>
+    <button class="tab" data-act="tab" data-tab="later"><span class="ms" aria-hidden="true">confirmation_number</span>あとで</button>
+    <button class="tab" data-act="tab" data-tab="done"><span class="ms" aria-hidden="true">verified</span>完走</button>
+  </nav>
+</div>
+<div id="sheetRoot"></div>
+<div id="toastRoot" aria-live="polite"></div>
+
+<script>
+const KINDS={
+  anime:{label:"アニメ",icon:"tv",unit:"話",chunk:4,mins:24},
+  manga:{label:"漫画",icon:"auto_stories",unit:"巻",chunk:3,mins:30},
+  book:{label:"本",icon:"menu_book",unit:"章",chunk:3,mins:25},
+  other:{label:"その他",icon:"confirmation_number",unit:"話",chunk:4,mins:null}
+};
+const UNITS=["話","巻","章","ページ"];
+const UNIT_DEFAULT={"話":{chunk:4,mins:24},"巻":{chunk:3,mins:30},"章":{chunk:3,mins:25},"ページ":{chunk:50,mins:1.5}};
+const KEY="tsuzukikara.v1";
+const blank=()=>({v:1,onboarded:false,seq:0,works:[],updatedAt:0});
+
+let S=loadLocal();
+let tab="home";
+let sheet=null;
+
+function loadLocal(){
+  try{const raw=localStorage.getItem(KEY);if(raw)return normalize(JSON.parse(raw));}catch(e){}
+  return blank();
+}
+function normalize(s){
+  const b=blank();
+  if(!s||typeof s!=="object")return b;
+  return {...b,...s,works:Array.isArray(s.works)?s.works:[]};
+}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* クラウド保存（自分だけが見られる場所）。使えないときはこの端末のみ。 */
+let docRef=null,writing=false,dirty=false,remoteTimer=null;
+function save(){
+  S.updatedAt=Date.now();
+  saveLocal();
+  if(docRef){clearTimeout(remoteTimer);remoteTimer=setTimeout(pushRemote,800);}
+}
+async function pushRemote(){
+  if(!docRef)return;
+  if(writing){dirty=true;return;}
+  writing=true;dirty=false;
+  try{await docRef.set({state:JSON.stringify(S),updatedAt:S.updatedAt});}catch(e){}
+  writing=false;
+  if(dirty)pushRemote();
+}
+(async()=>{
+  try{
+    if(!window.claude||!window.claude.use)return;
+    const [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    if(!db||!user)return;
+    const id=await user.id();
+    if(!id)return;
+    const ref=db.doc("data/users/"+id+"/app");
+    const snap=await ref.get();
+    docRef=ref;
+    if(snap.exists){
+      const d=snap.data()||{};
+      if(d.state&&(d.updatedAt||0)>=(S.updatedAt||0)){
+        S=normalize(JSON.parse(d.state));saveLocal();render();
+        return;
+      }
+    }
+    if(S.works.length||S.onboarded)pushRemote();
+  }catch(e){}
+})();
+
+/* 小道具 */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ms=(n,label)=>`<span class="ms" aria-hidden="true">${n}</span>`;
+const now=()=>new Date().toISOString();
+const md=iso=>{const d=new Date(iso);return `${d.getMonth()+1}.${String(d.getDate()).padStart(2,"0")}`;};
+const daysSince=iso=>iso?Math.floor((Date.now()-new Date(iso))/864e5):0;
+const no=n=>"No."+String(n).padStart(4,"0");
+function fmtMin(m){
+  m=Math.max(5,Math.round(m/5)*5);
+  if(m<60)return `約${m}分`;
+  const h=Math.floor(m/60),r=m%60;
+  return `約${h}時間${r?r+"分":""}`;
+}
+function greet(){
+  const h=new Date().getHours();
+  if(h>=5&&h<10)return["おはようございます","今日"];
+  if(h>=10&&h<17)return["こんにちは","今日"];
+  return["こんばんは","今夜"];
+}
+const riding=()=>S.works.filter(w=>w.status==="riding").sort((a,b)=>a.car-b.car);
+const later=()=>S.works.filter(w=>w.status==="later").sort((a,b)=>new Date(b.lastAt)-new Date(a.lastAt));
+const done=()=>S.works.filter(w=>w.status==="done").sort((a,b)=>new Date(b.doneAt)-new Date(a.doneAt));
+const freeCar=()=>[1,2,3].find(c=>!riding().some(w=>w.car===c));
+const byId=id=>S.works.find(w=>w.id===id);
+
+function route(w){
+  const c=Math.max(1,w.chunk||1),p=w.progress||0,T=w.total||null;
+  let prev=Math.floor(p/c)*c,next=prev+c;
+  if(T){if(next>T)next=T;if(prev>=T){prev=T;next=T;}}
+  const remaining=Math.max(0,next-p);
+  const frac=next>prev?(p-prev)/(next-prev):1;
+  const isEnd=!!T&&next===T;
+  return{prev,next,remaining,frac,isEnd};
+}
+function posText(w){return w.progress>0?`${w.progress}${w.unit}まで`:"まだ乗車前";}
+
+/* 切符の部品 */
+function routeHTML(w){
+  const r=route(w);
+  const pct=Math.round(r.frac*100);
+  const left=r.prev===0?"はじまり":`${r.prev}${w.unit}`;
+  const right=r.isEnd?`<b>終点 ${r.next}${w.unit}</b>`:`<b>区切り ${r.next}${w.unit}</b>`;
+  const time=w.mins?`（${fmtMin(r.remaining*w.mins)}）`:"";
+  return `<div class="route" aria-hidden="true"><span class="st"></span><div class="rail"><div class="rail-done" style="width:${pct}%"></div><span class="ms train" style="left:${pct}%">train</span></div><span class="st ${r.isEnd?"end":""}"></span></div>
+  <div class="route-labels"><span>${left}</span>${right}</div>
+  <div class="route-left">次の${r.isEnd?"終点":"区切り"}まで あと${r.remaining}${w.unit}${time}</div>`;
+}
+function kindHTML(w){const k=KINDS[w.kind]||KINDS.other;return `<span class="t-kind">${ms(k.icon)}${k.label}</span>`;}
+function notches(){return `<span class="notch t"></span><span class="notch b"></span>`;}
+function sampleTag(w){return w.sample?`<span class="tag-sample">見本</span>`:"";}
+
+function ridingTicket(w){
+  return `<article class="ticket">${notches()}
+    <div class="t-head">${kindHTML(w)}<span style="display:flex;gap:6px;align-items:center">${sampleTag(w)}<span class="t-car">${w.car}号車</span></span></div>
+    <h3 class="t-title">${esc(w.title)}</h3>
+    <div class="shiori"><div class="shiori-h">${ms("bookmark")}前回は ${posText(w)}</div>${w.memo?esc(w.memo):`<span style="opacity:.7">しおりメモはまだありません</span>`}</div>
+    ${routeHTML(w)}
+    <div class="t-actions">
+      <button class="btn primary" data-act="punch" data-id="${w.id}">${ms("radio_button_checked")}見た分をパンチする</button>
+      <button class="t-more" data-act="menu" data-id="${w.id}" aria-label="その他の操作">${ms("more_horiz")}</button>
+    </div>
+    <div class="t-foot"><span>${no(w.no)}　${posText(w)}</span><span>途中下車前途有効</span></div>
+  </article>`;
+}
+function laterTicket(w){
+  const pos=w.progress>0?`途中 ${w.progress}${w.unit}`:"未乗車";
+  const line=w.memo?`<div class="t-memo">${ms("bookmark")}<span>${esc(w.memo)}</span></div>`:(w.reason?`<div class="t-memo">${ms("favorite")}<span>${esc(w.reason)}</span></div>`:"");
+  return `<button class="ticket compact" style="text-align:left;width:100%" data-act="laterOpen" data-id="${w.id}">${notches()}
+    <div class="t-head">${kindHTML(w)}<span style="display:flex;gap:6px">${sampleTag(w)}<span class="pill">${pos}</span></span></div>
+    <div class="t-title">${esc(w.title)}</div>${line}
+  </button>`;
+}
+function doneTicket(w,i){
+  return `<article class="ticket compact has-stamp ${i%2?"tilt-b":"tilt-a"}">${notches()}
+    <div class="t-head">${kindHTML(w)}${sampleTag(w)}</div>
+    <div class="t-title">${esc(w.title)}</div>
+    <div class="t-memo" style="color:var(--ink-soft)">${w.total?`全${w.total}${w.unit}`:`${w.progress}${w.unit}`}・旅の期間 ${Math.max(1,daysSince(w.issuedAt)-daysSince(w.doneAt))}日</div>
+    ${w.note?`<div class="shiori">${esc(w.note)}</div>`:""}
+    <div class="stamp"><b>完走</b><span>${md(w.doneAt)}</span></div>
+  </article>`;
+}
+
+/* 画面 */
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",t.dataset.tab===tab?"page":"false"));
+  const v=$("#view");
+  if(tab==="home")v.innerHTML=homeView();
+  else if(tab==="later")v.innerHTML=laterView();
+  else v.innerHTML=doneView();
+  renderSheet();
+}
+
+function conductor(text){return `<div class="conductor"><div class="cap">${ms("train")}</div><div class="bubble">${text}</div></div>`;}
+
+function homeView(){
+  if(!S.works.length&&!S.onboarded){
+    return `${conductor("はじめまして、車掌です。途中になっている漫画やアニメ、本を、少しずつ最後まで楽しむお手伝いをします。")}
+    <ol class="steps">
+      <li><span class="num">1</span><div><b>途中の作品を登録</b><span>作品が1枚の切符になります</span></div></li>
+      <li><span class="num">2</span><div><b>見たらパンチ</b><span>見た話数をタップするだけ</span></div></li>
+      <li><span class="num">3</span><div><b>区切りと完走でスタンプ</b><span>切符にスタンプが押されます</span></div></li>
+    </ol>
+    <div class="stack">
+      <button class="btn primary big" data-act="inventory">${ms("add")}途中の作品を登録する</button>
+      <button class="link" data-act="loadSample">まずは見本で触ってみる</button>
+    </div>`;
+  }
+  const rs=riding();
+  const [g,when]=greet();
+  const back=rs.find(w=>daysSince(w.lastAt)>=5);
+  let msg;
+  if(back)msg=`おかえりなさいませ。<b>${esc(back.title)}</b>の切符はまだ有効ですよ。`;
+  else if(!rs.length)msg=`${g}。ただいま全席空席です。見たい作品があれば、下の空席をタップしてどうぞ。お休みの日があっても大丈夫です。`;
+  else msg=`${g}、本日もおつかれさまです。見終わったら<b>パンチ</b>で記録してくださいね。`;
+  let cars="";
+  for(const c of [1,2,3]){
+    const w=rs.find(x=>x.car===c);
+    cars+=w?ridingTicket(w):`<button class="seat" data-act="seat" data-car="${c}">${ms("add")}作品を乗せる<b>（${c}号車・空席）</b></button>`;
+  }
+  return `${conductor(msg)}
+  <div class="label">${ms("train")}いま見てる　${rs.length} / 3</div>
+  ${cars}
+  ${rs.length<3?`<p class="note">空席は埋めなくて大丈夫です</p>`:""}`;
+}
+
+function laterView(){
+  const ls=later();
+  const hasSample=S.works.some(w=>w.sample);
+  return `<h2 class="view-title">あとで</h2>
+  ${conductor("切符はすべて<b>有効期限なし</b>です。乗りたくなったら、いつでもどうぞ。")}
+  <div class="row">
+    <button class="btn ghost" data-act="newLater">${ms("add")}タイトルだけで追加</button>
+    <button class="btn ghost" data-act="inventory">${ms("library_add")}まとめて登録</button>
+  </div>
+  <div class="list">${ls.length?ls.map(laterTicket).join(""):`<p class="empty">切符入れは空です。思い出した作品があれば、タイトルだけで入れておけます。</p>`}</div>
+  ${hasSample?`<button class="btn ghost" data-act="clearSample" style="margin-top:8px">見本の切符を片付ける</button>`:""}`;
+}
+
+function doneView(){
+  const ds=done();
+  const y=new Date().getFullYear();
+  const thisYear=ds.filter(w=>new Date(w.doneAt).getFullYear()===y).length;
+  const ks=[];
+  S.works.forEach(w=>(w.stamps||[]).forEach(s=>{if(s.kind==="kugiri")ks.push({w,s});}));
+  ks.sort((a,b)=>new Date(b.s.at)-new Date(a.s.at));
+  return `<h2 class="view-title">完走した切符<small>${y}年 ${thisYear}枚</small></h2>
+  <div class="list">${ds.length?ds.map(doneTicket).join(""):`<p class="empty">終点に着いた切符が、スタンプ付きでここに並びます。</p>`}</div>
+  ${ks.length?`<div class="section-h">${ms("approval")}区切りスタンプ</div>
+  <div class="list">${ks.slice(0,20).map(({w,s},i)=>`<article class="ticket compact has-stamp sm ${i%2?"tilt-b":"tilt-a"}">${notches()}
+    <div class="t-head">${kindHTML(w)}</div><div class="t-title">${esc(w.title)}</div>
+    <div class="t-memo" style="color:var(--ink-soft)">${s.upto}${w.unit}まで到着</div>
+    <div class="stamp k sm"><b>区切り</b><span>${md(s.at)}</span></div></article>`).join("")}</div>`:""}
+  ${ds.length?conductor("たくさん旅をされましたね。"):""}`;
+}
+
+/* シート */
+function openSheet(s){sheet=s;renderSheet();}
+function closeSheet(){sheet=null;renderSheet();}
+function renderSheet(){
+  const root=$("#sheetRoot");
+  if(!sheet){root.innerHTML="";return;}
+  const fn=SHEETS[sheet.type];
+  root.innerHTML=`<div class="sheet-wrap" data-act="backdrop"><div class="sheet" role="dialog" aria-modal="true">${fn(sheet)}</div></div>`;
+  const f=root.querySelector("[autofocus]");if(f)f.focus();
+}
+function head(t){return `<div class="sheet-head"><h2>${t}</h2><button class="x" data-act="close" aria-label="閉じる">${ms("close")}</button></div>`;}
+
+const SHEETS={
+  punch(s){
+    const w=byId(s.id);
+    const p=s.pending;
+    const diff=p-w.progress;
+    let body;
+    if(w.unit==="ページ"){
+      body=`<div class="pager">
+        <button data-act="pg" data-d="-10">−10</button>
+        <input type="number" id="pgInput" inputmode="numeric" min="0" ${w.total?`max="${w.total}"`:""} value="${p}" aria-label="読んだページ">
+        <button data-act="pg" data-d="10">＋10</button><button data-act="pg" data-d="50">＋50</button></div>
+        <div class="punch-hint" style="margin-top:6px">何ページまで読んだかを入れてください</div>`;
+    }else{
+      const start=Math.max(1,w.progress-2);
+      let end=w.progress+7;if(w.total)end=Math.min(w.total,end);
+      let holes="";
+      for(let n=start;n<=end;n++){
+        const st=(n%w.chunk===0)||(w.total&&n===w.total);
+        const isEnd=w.total&&n===w.total;
+        holes+=`<button class="hole-btn ${st?"station":""} ${isEnd?"end":""} ${n<=p?"on":""} ${n===s.popped?"pop":""}" data-act="hole" data-n="${n}" aria-pressed="${n<=p}" aria-label="${n}${w.unit}">${n}</button>`;
+      }
+      body=`<div class="punch">${holes}</div><div class="punch-hint">見たところまでの数字をタップしてください。オレンジの丸は区切り${w.total?"、赤い丸は終点":""}です</div>`;
+    }
+    const msg=diff>0?`<b>${diff}${w.unit}</b>分、進みますね。よければ下の「記録する」を押してください。`:diff<0?"少し戻しますね。":`前回は<b>${posText(w)}</b>でした。今日はどこまで進みましたか。`;
+    return `${head("どこまで見ましたか？")}
+    <div class="ticket">${notches()}
+      <div class="t-head">${kindHTML(w)}<span class="t-car">${w.car?w.car+"号車":"あとで"}</span></div>
+      <div class="t-title">${esc(w.title)}</div>
+      ${body}
+    </div>
+    ${conductor(msg)}
+    <label class="field"><span>しおりメモ <em>なくてもOK。次に思い出したいことを一言</em></span>
+      <textarea id="memoInput" maxlength="200" placeholder="例：主人公が旅に出る決心をしたところ">${esc(s.memo??w.memo??"")}</textarea></label>
+    <div class="stack">
+      <button class="btn primary" data-act="commit" data-id="${w.id}">記録する</button>
+      ${w.status==="riding"?`<button class="btn ghost" data-act="commitAlight" data-id="${w.id}">しおりを挟んで途中下車</button>`:""}
+      ${!w.total?`<button class="btn ghost" data-act="finishManual" data-id="${w.id}">${ms("flag")}ここで完走にする</button>`:""}
+    </div>`;
+  },
+  menu(s){
+    const w=byId(s.id);
+    if(s.confirm)return confirmDiscard(w);
+    return `${head(esc(w.title))}
+    <div class="stack">
+      <button class="btn ghost" data-act="edit" data-id="${w.id}">${ms("edit")}切符を書き直す</button>
+      <button class="btn ghost" data-act="alight" data-id="${w.id}">${ms("logout")}途中下車して、あとでに戻す</button>
+      <button class="btn ghost" data-act="finishManual" data-id="${w.id}">${ms("flag")}ここで完走にする</button>
+      <button class="btn danger" data-act="askDiscard" data-id="${w.id}">${ms("delete")}切符を破棄する</button>
+    </div>`;
+  },
+  laterOpen(s){
+    const w=byId(s.id);
+    if(s.confirm)return confirmDiscard(w);
+    const car=freeCar();
+    return `${head("切符入れ")}
+    <div class="ticket">${notches()}
+      <div class="t-head">${kindHTML(w)}<span class="pill">${w.progress>0?`途中 ${w.progress}${w.unit}`:"未乗車"}</span></div>
+      <div class="t-title">${esc(w.title)}</div>
+      ${w.reason?`<div class="t-memo">${ms("favorite")}<span>見たい理由：${esc(w.reason)}</span></div>`:""}
+      ${w.memo?`<div class="shiori"><div class="shiori-h">${ms("bookmark")}しおりメモ</div>${esc(w.memo)}</div>`:""}
+      ${routeHTML(w)}
+      <div class="t-foot"><span>${no(w.no)}　発行 ${md(w.issuedAt)}</span><span>有効期限なし</span></div>
+    </div>
+    <div class="stack">
+      ${car?`<button class="btn primary" data-act="board" data-id="${w.id}">${ms("train")}${car}号車に乗車する</button>`
+      :`${conductor("あいにく満席です。いま見てるの切符をどれか途中下車させると、乗車できます。")}`}
+      <button class="btn ghost" data-act="edit" data-id="${w.id}">${ms("edit")}切符を書き直す</button>
+      <button class="btn danger" data-act="askDiscard" data-id="${w.id}">${ms("delete")}切符を破棄する</button>
+    </div>`;
+  },
+  seat(s){
+    const ls=later();
+    return `${head(`${s.car}号車　空席`)}
+    ${conductor(ls.length?"どの切符で乗車しますか。":"切符入れは空です。新しい切符を発行しましょうか。")}
+    <div class="list">${ls.map(w=>laterTicket(w).replace('data-act="laterOpen"',`data-act="boardFromSeat"`)).join("")}</div>
+    <button class="btn primary" data-act="newRide">${ms("add")}新しい切符を発行して乗車</button>`;
+  },
+  form(s){
+    const d=s.draft;
+    const kinds=Object.entries(KINDS).map(([k,v])=>`<button type="button" class="chip" data-act="kind" data-k="${k}" aria-pressed="${d.kind===k}">${ms(v.icon)}${v.label}</button>`).join("");
+    const units=UNITS.map(u=>`<option ${d.unit===u?"selected":""}>${u}</option>`).join("");
+    const titles={newLater:"あとで見る作品を追加",newRide:"作品を乗せる",edit:"切符を書き直す",inv:"途中の作品を登録"};
+    const inv=s.mode==="inv";
+    const car=freeCar();
+    const simple=s.mode==="newLater"&&!s.more;
+    const adv=s.adv||s.mode==="edit";
+    return `${head(titles[s.mode])}
+    ${inv?conductor(s.count?`<b>${s.count}作品</b>登録しました。ほかにもあれば続けてどうぞ。`:"途中になっている作品を1つずつ教えてください。"):""}
+    <label class="field"><span>作品名</span><input type="text" id="fTitle" value="${esc(d.title)}" maxlength="80" placeholder="例：灯台守の手紙" autofocus></label>
+    ${s.error?`<div class="err">${s.error}</div>`:""}
+    <div class="field"><span>種類</span><div class="chips">${kinds}</div></div>
+    ${simple?`<button class="link" data-act="more">どこまで見たかも書く</button>`:`
+    <div class="field"><span>どこまで見た？ <em>覚えてなければ空でOK</em></span>
+      <div class="inline"><input type="number" id="fProg" min="0" inputmode="numeric" value="${d.progress||""}" placeholder="0"><select id="fUnit" aria-label="単位">${units}</select><span>まで</span></div></div>
+    <div class="field"><span>全部で <em>わかれば</em></span>
+      <div class="inline"><input type="number" id="fTotal" min="1" inputmode="numeric" value="${d.total||""}" placeholder="例：12"><span>${esc(d.unit)}</span></div></div>
+    ${adv?`
+    <div class="grid2">
+      <label class="field"><span>区切りの大きさ</span><input type="number" id="fChunk" min="1" inputmode="numeric" value="${d.chunk||""}"></label>
+      <label class="field"><span>1${esc(d.unit)}の時間（分）</span><input type="number" id="fMins" min="0" step="0.5" inputmode="decimal" value="${d.mins??""}"></label>
+    </div>
+    <label class="field"><span>見たいと思った理由</span><input type="text" id="fReason" maxlength="120" value="${esc(d.reason)}" placeholder="例：友達が泣けると言っていた"></label>
+    <label class="field"><span>しおりメモ</span><textarea id="fMemo" maxlength="200" placeholder="例：第2部に入るところ">${esc(d.memo)}</textarea></label>`
+    :`<button class="link" data-act="adv">くわしく設定する（区切り・メモなど）</button>`}`}
+    <div class="stack">
+    ${inv?`<div class="field"><span>どうしますか？</span></div>
+        <div class="row">
+        <button class="btn primary" data-act="invRide" ${car?"":"aria-disabled=\"true\""}>${ms("train")}いま見る</button>
+        <button class="btn ghost" data-act="invLater">${ms("schedule")}あとで見る</button></div>
+        ${car?"":`<p class="note">いま見てるは3作品までなので、満席です</p>`}
+        ${s.count?`<button class="btn ghost" data-act="close">登録を終える</button>`:""}`
+    :`<button class="btn primary" data-act="saveForm">${s.mode==="edit"?"書き直す":s.mode==="newRide"?"乗せる":"あとでに入れる"}</button>`}
+    </div>`;
+  },
+  celebrate(s){
+    const w=byId(s.id);
+    if(s.kind==="kugiri"){
+      return `${head("ひと区切り")}
+      <div class="celebrate-lights" aria-hidden="true">${[0,1,2,3,4].map(i=>`<span style="animation-delay:${i*.08}s"></span>`).join("")}</div>
+      <div class="ticket has-stamp">${notches()}
+        <div class="t-head">${kindHTML(w)}</div>
+        <div class="t-title">${esc(w.title)}</div>
+        <div class="t-memo" style="color:var(--ink)">${s.upto}${w.unit}まで到着</div>
+        <div class="stamp k slam"><b>区切り</b><span>${md(now())}</span></div>
+      </div>
+      ${conductor(`ひと区切り、到着です。${route(w).remaining?`次の${route(w).isEnd?"終点":"区切り"}までは、あと<b>${route(w).remaining}${w.unit}</b>です。`:""}`)}
+      <button class="btn primary" data-act="close">旅をつづける</button>`;
+    }
+    const days=Math.max(1,daysSince(w.issuedAt));
+    return `<div class="celebrate-lights" aria-hidden="true">${[0,1,2,3,4,5,6].map(i=>`<span style="animation-delay:${i*.09}s"></span>`).join("")}</div>
+    <div style="text-align:center"><div class="note" style="letter-spacing:.3em">終点</div><div class="t-title" style="font-size:22px;color:var(--fg)">${esc(w.title)}</div></div>
+    <div class="ticket has-stamp">${notches()}
+      <div class="t-head">${kindHTML(w)}</div>
+      <div class="t-memo" style="color:var(--ink)">${w.total?`全${w.total}${w.unit}`:`${w.progress}${w.unit}`}</div>
+      <div class="t-foot"><span>${no(w.no)}</span></div>
+      <div class="stamp slam"><b>完走</b><span>${md(now())}</span></div>
+    </div>
+    ${conductor("終点です。長い旅、おつかれさまでした。")}
+    <div class="stats"><div><b>${w.progress}${w.unit}</b><span>${w.unit==="ページ"?"読んだ量":"見た量"}</span></div><div><b>${days}日</b><span>旅の期間</span></div></div>
+    <label class="field"><span>ひとこと感想 <em>なくてもOK</em></span><textarea id="noteInput" maxlength="200" placeholder="例：最終話の手紙で泣いた"></textarea></label>
+    <button class="btn primary" data-act="finishSave" data-id="${w.id}">完走した切符に入れる</button>`;
+  }
+};
+function confirmDiscard(w){
+  return `${head("切符を破棄する")}
+  <div class="confirm">「${esc(w.title)}」の切符を破棄しますか。しおりメモもスタンプも消えて、記録には残りません。
+  <div class="row"><button class="btn ghost" data-act="cancelDiscard">やめておく</button><button class="btn danger" data-act="discard" data-id="${w.id}">破棄する</button></div></div>`;
+}
+
+/* 操作 */
+function newDraft(kind="anime"){const k=KINDS[kind];return{title:"",kind,unit:k.unit,progress:0,total:null,chunk:k.chunk,mins:k.mins,reason:"",memo:""};}
+function readForm(d){
+  const g=id=>document.getElementById(id);
+  d.title=(g("fTitle")?.value||"").trim();
+  const num=(id,min)=>{if(!g(id))return undefined;const v=parseFloat(g(id).value);return isFinite(v)&&v>=min?v:null;};
+  if(g("fUnit")){
+    const prevUnit=d.unit;
+    d.unit=g("fUnit").value;
+    d.progress=Math.round(num("fProg",0)||0);
+    const t=num("fTotal",1);d.total=t?Math.round(t):null;
+    if(prevUnit!==d.unit&&!g("fChunk")){d.chunk=UNIT_DEFAULT[d.unit].chunk;if(d.kind!=="other")d.mins=UNIT_DEFAULT[d.unit].mins;}
+  }
+  if(g("fChunk")){d.chunk=Math.round(num("fChunk",1)||UNIT_DEFAULT[d.unit].chunk);d.mins=num("fMins",0);}
+  if(g("fReason"))d.reason=g("fReason").value.trim();
+  if(g("fMemo"))d.memo=g("fMemo").value.trim();
+  if(d.total&&d.progress>d.total)d.progress=d.total;
+  return d;
+}
+function issue(d,status){
+  S.seq=(S.seq||0)+1;
+  const w={id:"w"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),no:S.seq,title:d.title,kind:d.kind,unit:d.unit,progress:d.progress||0,total:d.total||null,chunk:d.chunk||1,mins:d.mins??null,reason:d.reason||"",memo:d.memo||"",status,car:null,issuedAt:now(),lastAt:now(),stamps:[]};
+  if(status==="riding")w.car=freeCar();
+  S.works.push(w);S.onboarded=true;save();
+  return w;
+}
+function toast(text,icon="train"){
+  const r=$("#toastRoot");
+  r.innerHTML=`<div class="toast">${ms(icon)}<span>${text}</span></div>`;
+  clearTimeout(toast.t);toast.t=setTimeout(()=>r.innerHTML="",3200);
+}
+function alight(w){w.status="later";w.car=null;w.lastAt=now();save();}
+function commit(w,p,memo){
+  const old=w.progress;const c=Math.max(1,w.chunk);
+  w.progress=Math.max(0,p);w.memo=memo;w.lastAt=now();
+  if(w.total&&w.progress>=w.total){w.progress=w.total;save();openSheet({type:"celebrate",kind:"done",id:w.id});return;}
+  if(w.progress>old&&Math.floor(w.progress/c)>Math.floor(old/c)){
+    const upto=Math.floor(w.progress/c)*c;
+    (w.stamps=w.stamps||[]).push({kind:"kugiri",at:now(),upto});
+    save();openSheet({type:"celebrate",kind:"kugiri",id:w.id,upto});return;
+  }
+  save();closeSheet();
+  const d=w.progress-old;
+  toast(d>0?`${d}${w.unit}分、進みました。いいペースですね`:"しおりメモを挟みました","bookmark");
+}
+
+const SAMPLES=[
+  {title:"星降る街の喫茶店",kind:"anime",unit:"話",progress:8,total:12,chunk:4,mins:24,memo:"店長の過去がわかりかけたところ",reason:"",status:"riding",ago:2},
+  {title:"灯台守の手紙",kind:"book",unit:"ページ",progress:132,total:320,chunk:50,mins:1.5,memo:"妹からの手紙が偽物かも？と気づいたところ。次は島に渡る話",reason:"",status:"later",ago:21},
+  {title:"鉄と花の王国",kind:"manga",unit:"巻",progress:5,total:null,chunk:5,mins:30,memo:"第2部に入るところ",reason:"",status:"later",ago:40},
+  {title:"月面ベーカリー",kind:"anime",unit:"話",progress:0,total:13,chunk:4,mins:24,memo:"",reason:"友達が泣けると言っていた",status:"later",ago:9}
+];
+function loadSample(){
+  SAMPLES.forEach(s=>{const w=issue(s,s.status);w.sample=true;const t=new Date(Date.now()-s.ago*864e5).toISOString();w.issuedAt=new Date(Date.now()-(s.ago+10)*864e5).toISOString();w.lastAt=t;if(s.status==="riding")w.stamps=[{kind:"kugiri",at:t,upto:8}];});
+  S.onboarded=true;save();render();
+  toast("見本の切符を発行しました");
+}
+
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-act]");if(!el)return;
+  const act=el.dataset.act;const id=el.dataset.id;const w=id?byId(id):null;
+  if(act==="backdrop"&&e.target!==el)return;
+  switch(act){
+    case"tab":tab=el.dataset.tab;closeSheet();render();window.scrollTo(0,0);break;
+    case"backdrop":case"close":closeSheet();render();break;
+    case"alight":alight(w);closeSheet();render();toast("承知しました。しおりを挟んでおきますね。またいつでもどうぞ","bookmark");break;
+    case"punch":openSheet({type:"punch",id,pending:w.progress});break;
+    case"hole":{const n=+el.dataset.n;sheet.memo=$("#memoInput").value;sheet.pending=(n===sheet.pending)?n-1:n;sheet.popped=n;renderSheet();break;}
+    case"pg":{const inp=$("#pgInput");sheet.memo=$("#memoInput").value;let v=(parseInt(inp.value)||0)+(+el.dataset.d);const ww=byId(sheet.id);if(ww.total)v=Math.min(v,ww.total);sheet.pending=Math.max(0,v);renderSheet();break;}
+    case"commit":case"commitAlight":{
+      let p=sheet.pending;const pg=$("#pgInput");if(pg){p=parseInt(pg.value)||0;if(w.total)p=Math.min(p,w.total);}
+      const memo=$("#memoInput").value.trim();
+      if(act==="commitAlight"){w.progress=p;w.memo=memo;alight(w);closeSheet();render();toast("承知しました。しおりを挟んでおきますね","bookmark");}
+      else{commit(w,p,memo);render();}
+      break;}
+    case"finishManual":{const pg=$("#pgInput");if(sheet&&sheet.type==="punch"){w.progress=pg?(parseInt(pg.value)||w.progress):sheet.pending;w.memo=$("#memoInput").value.trim();}save();openSheet({type:"celebrate",kind:"done",id});break;}
+    case"finishSave":{w.note=$("#noteInput").value.trim();w.status="done";w.car=null;w.doneAt=now();w.lastAt=now();(w.stamps=w.stamps||[]).push({kind:"done",at:now()});save();closeSheet();tab="done";render();toast("いま見てるに空席ができました","event_seat");break;}
+    case"menu":openSheet({type:"menu",id});break;
+    case"laterOpen":openSheet({type:"laterOpen",id});break;
+    case"askDiscard":sheet.confirm=true;renderSheet();break;
+    case"cancelDiscard":sheet.confirm=false;renderSheet();break;
+    case"discard":S.works=S.works.filter(x=>x.id!==id);save();closeSheet();render();toast("切符を破棄しました","delete");break;
+    case"board":{const c=freeCar();if(!c)break;w.status="riding";w.car=c;w.lastAt=now();save();closeSheet();tab="home";render();toast(`ご乗車ありがとうございます。${c}号車へどうぞ`);break;}
+    case"seat":openSheet({type:"seat",car:+el.dataset.car});break;
+    case"boardFromSeat":{const c=freeCar();if(!c)break;w.status="riding";w.car=c;w.lastAt=now();save();closeSheet();render();toast(`ご乗車ありがとうございます。${c}号車へどうぞ`);break;}
+    case"newRide":openSheet({type:"form",mode:"newRide",draft:newDraft(),more:true});break;
+    case"newLater":openSheet({type:"form",mode:"newLater",draft:newDraft()});break;
+    case"inventory":openSheet({type:"form",mode:"inv",draft:newDraft("anime"),count:0,more:true});break;
+    case"edit":{const d={...w};openSheet({type:"form",mode:"edit",draft:d,id,more:true});break;}
+    case"more":readForm(sheet.draft);sheet.more=true;renderSheet();break;
+    case"adv":readForm(sheet.draft);sheet.adv=true;renderSheet();break;
+    case"kind":{const d=readForm(sheet.draft);const k=KINDS[el.dataset.k];d.kind=el.dataset.k;if(sheet.mode!=="edit"){d.unit=k.unit;d.chunk=k.chunk;d.mins=k.mins;}renderSheet();break;}
+    case"saveForm":{
+      const d=readForm(sheet.draft);
+      if(!d.title){sheet.error="作品名を入れてください";renderSheet();break;}
+      if(sheet.mode==="edit"){Object.assign(byId(sheet.id),{title:d.title,kind:d.kind,unit:d.unit,progress:d.progress,total:d.total,chunk:d.chunk,mins:d.mins,reason:d.reason,memo:d.memo});save();closeSheet();render();toast("切符を書き直しました","edit");}
+      else if(sheet.mode==="newRide"){if(!freeCar()){toast("満席です");break;}const nw=issue(d,"riding");closeSheet();tab="home";render();toast(`ご乗車ありがとうございます。${nw.car}号車へどうぞ`);}
+      else{issue(d,"later");closeSheet();render();toast("切符入れに入れました。有効期限はありません","confirmation_number");}
+      break;}
+    case"invRide":case"invLater":case"invSkip":{
+      const d=readForm(sheet.draft);
+      if(act!=="invSkip"&&!d.title){sheet.error="作品名を入れてください";renderSheet();break;}
+      if(act==="invRide"&&!freeCar()){break;}
+      if(act==="invSkip"){}
+      else{const nw=issue(d,act==="invRide"?"riding":"later");sheet.count++;toast(act==="invRide"?`「${esc(d.title)}」を${nw.car}号車に乗せました`:`「${esc(d.title)}」をあとでに入れました`,"confirmation_number");}
+      S.onboarded=true;save();
+      sheet.draft=newDraft(d.kind);sheet.error=null;render();break;}
+    case"loadSample":loadSample();break;
+    case"clearSample":S.works=S.works.filter(x=>!x.sample);save();render();toast("見本の切符を片付けました","cleaning_services");break;
+  }
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="fUnit"&&sheet&&sheet.type==="form"){const d=readForm(sheet.draft);if(document.getElementById("fChunk")){const u=UNIT_DEFAULT[d.unit];d.chunk=u.chunk;if(d.kind!=="other")d.mins=u.mins;}renderSheet();}
+  if(e.target.id==="fTitle"&&sheet&&sheet.error){sheet.error=null;}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet){closeSheet();render();}});
+
+/* 車窓の灯り */
+(function ambience(){
+  const wins=[...document.querySelectorAll("#windows span")];
+  const flick=()=>wins.forEach(s=>s.classList.toggle("lit",Math.random()<.55));
+  flick();
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setInterval(()=>{const s=wins[Math.floor(Math.random()*wins.length)];s.classList.toggle("lit");},2600);
+  const sc=$("#scenery");let h="";
+  for(let i=0;i<7;i++)h+=`<i style="animation-duration:${6+Math.random()*7}s;animation-delay:-${Math.random()*10}s;bottom:${2+Math.random()*8}px"></i>`;
+  sc.innerHTML=h;
+})();
+render();
+</script>
